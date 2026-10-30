@@ -1,22 +1,24 @@
 # mystore
 
-A fast, mobile-friendly online store with **728 products** in 10 categories. It is plain HTML, CSS and JavaScript, so it runs free on GitHub Pages with no server or database.
+A fast, mobile-friendly online store with **11,000+ products** from two suppliers (YourMart and HHC) in 18 categories. It is plain HTML, CSS and JavaScript, so it runs free on GitHub Pages with no server or database.
 
-**Features:** home page, category pages, search, sorting, pagination, product pages with image gallery, cart, and Cash-on-Delivery checkout. Orders arrive on WhatsApp.
+**Features:** home page, categories with sub-categories, search, sorting, pagination, product pages with image and video gallery, product options (colour / size), cart, and Cash-on-Delivery checkout. Orders arrive on WhatsApp.
 
 ## Change store settings
 Edit `config.js` to set the store name, WhatsApp number (orders go here), delivery charge and free-delivery limit.
 
 ## Update products
-Prices on the site = CSV price + `PRICE_MARKUP` (Rs. 300, set in `tools/build_products.py`).
+Prices on the site = supplier price + `PRICE_MARKUP` (Rs. 300, set in `tools/build_products.py`). Products without a price or picture are skipped, and products with the same name are shown once.
 
-1. Replace `data/All_Products_CSV_for_Shopify.csv` with a new export (same columns).
+1. Replace the supplier export(s) with a new download (same columns):
+   - `data/All_Products_CSV_for_Shopify.csv`: YourMart
+   - `data/hhc_products_export.csv`: HHC
 2. Run `python3 tools/build_products.py`.
 3. Commit and push. The site updates automatically.
 
 ## Add products by hand
 Put product photos in `images/products/` and add one row per product to `data/extra_products.csv`:
-`Title, Price, Category, Description, Images` (several images separated by `|`, e.g. `images/products/cup-1.jpg|images/products/cup-2.jpg`). Then run `python3 tools/build_products.py`. The Rs. 300 markup is added here too.
+`Title, Price, Category, Description, Images`. Category can be `Main` or `Main > Sub`; several images are separated by `|` (e.g. `images/products/cup-1.jpg|images/products/cup-2.jpg`). Then run `python3 tools/build_products.py`. The Rs. 300 markup is added here too.
 
 ## Go live on GitHub Pages
 Open **Settings → Pages**, set **Source** to *Deploy from a branch*, pick the branch and the `/ (root)` folder, then click **Save**. The site will be at `https://asadprofficial-code.github.io/mystore/`.
@@ -28,6 +30,6 @@ Open **Settings → Pages**, set **Source** to *Deploy from a branch*, pick the 
 | `config.js` | Store settings |
 | `assets/app.js` | Store logic (pages, cart, checkout) |
 | `assets/style.css` | Design |
-| `data/products.json` | Product catalog (generated) |
-| `data/desc/*.json` | Product descriptions (generated) |
-| `tools/build_products.py` | CSV to JSON converter |
+| `data/catalog.json` | All products, compact (generated) |
+| `data/detail/*.json` | Images, descriptions and options, 100 products per file (generated) |
+| `tools/build_products.py` | Supplier CSV to JSON converter |
