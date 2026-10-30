@@ -2,10 +2,12 @@
 
 A fast, mobile-friendly online store with **11,000+ products** from two suppliers (YourMart and HHC) in 18 categories. It is plain HTML, CSS and JavaScript, so it runs free on GitHub Pages with no server or database.
 
-**Features:** home page, categories with sub-categories, search, sorting, pagination, product pages with image and video gallery, product options (colour / size), cart, and Cash-on-Delivery checkout. Orders arrive on WhatsApp.
+**Features:** banner slider, categories with sub-categories, live search suggestions, price filters, product pages with image zoom and video gallery, product options (colour / size), slide-out mini cart, mobile bottom navigation, help pages, and Cash-on-Delivery checkout. Orders arrive on WhatsApp.
 
 ## Change store settings
-Edit `config.js` to set the store name, WhatsApp number (orders go here), delivery charge and free-delivery limit.
+Edit `config.js` to set the store name, WhatsApp number (orders go here), contact details, social links, delivery charge and time, the rotating announcements and the home page banner slides.
+
+The About, Contact, FAQ, Shipping, Returns, Privacy and Terms pages are written in `infoPages()` in `assets/app.js`. Review them and adjust to match how you actually run the store.
 
 ## Update products
 Prices on the site = supplier price + `PRICE_MARKUP` (Rs. 300, set in `tools/build_products.py`). Products without a price or picture are skipped, and products with the same name are shown once.

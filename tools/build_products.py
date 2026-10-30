@@ -18,6 +18,7 @@ Rules
     otherwise the cheapest HHC listing.
 """
 import csv
+import html
 import json
 import os
 import re
@@ -81,22 +82,32 @@ def escape(text):
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def sanitize(html):
+def sanitize(markup):
     s = Sanitizer()
-    s.feed(html)
+    s.feed(markup)
     s.close()
     return re.sub(r"<p>\s*</p>", "", "".join(s.out)).strip()
 
 
 def text_to_html(text):
     """Plain-text description (HHC, hand-added) -> paragraphs."""
-    lines = [escape(line.strip()) for line in text.splitlines()]
+    lines = [escape(unescape(line).strip()) for line in text.splitlines()]
     blocks = re.split(r"(?:\n\s*){2,}", "\n".join(lines))
     return "".join("<p>" + b.strip().replace("\n", "<br>") + "</p>" for b in blocks if b.strip())
 
 
+def unescape(text):
+    """Supplier text is sometimes HTML-escaped twice ("&amp;amp;")."""
+    for _ in range(3):
+        decoded = html.unescape(text)
+        if decoded == text:
+            break
+        text = decoded
+    return text
+
+
 def clean_title(text):
-    return re.sub(r"\s+", " ", text).strip().rstrip("-").strip()
+    return re.sub(r"\s+", " ", unescape(text)).strip().rstrip("-").strip()
 
 
 def name_key(text):
