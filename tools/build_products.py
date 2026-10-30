@@ -1,7 +1,8 @@
 """Convert the Shopify product CSV into JSON files used by the website.
 
 Usage: python3 tools/build_products.py
-Reads  data/All_Products_CSV_for_Shopify.csv
+Reads  data/All_Products_CSV_for_Shopify.csv (supplier export)
+       data/extra_products.csv (products added by hand: Title, Price, Category, Description, Images)
 Writes data/products.json (catalog) and data/desc/<n>.json (descriptions, 100 per file)
 """
 import csv
@@ -12,6 +13,7 @@ from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_PATH = os.path.join(ROOT, "data", "All_Products_CSV_for_Shopify.csv")
+EXTRA_PATH = os.path.join(ROOT, "data", "extra_products.csv")
 OUT_DIR = os.path.join(ROOT, "data")
 DESC_DIR = os.path.join(OUT_DIR, "desc")
 CHUNK = 100
@@ -81,6 +83,32 @@ def main():
         img = row["Image Src"].strip()
         if img and img not in by_handle[handle]["images"]:
             by_handle[handle]["images"].append(img)
+
+    # Hand-added products: one row each, images separated by "|" (paths like images/products/x.jpg or URLs)
+    if os.path.exists(EXTRA_PATH):
+        with open(EXTRA_PATH, encoding="utf-8-sig", newline="") as f:
+            for row in csv.DictReader(f):
+                title = re.sub(r"\s+", " ", row["Title"]).strip()
+                if not title:
+                    continue
+                handle = slugify(title)
+                while handle in by_handle:
+                    handle += "-2"
+                category = row["Category"].strip() or "Other"
+                desc = row["Description"].strip()
+                paragraphs = "".join(f"<p>{line.strip()}</p>" for line in desc.splitlines() if line.strip())
+                p = {
+                    "id": len(products),
+                    "handle": handle,
+                    "title": title,
+                    "price": round(float(row["Price"])) + PRICE_MARKUP,
+                    "cat": category,
+                    "catSlug": slugify(category),
+                    "images": [i.strip() for i in row["Images"].split("|") if i.strip()],
+                    "_desc": sanitize(paragraphs),
+                }
+                by_handle[handle] = p
+                products.append(p)
 
     os.makedirs(DESC_DIR, exist_ok=True)
     for old in os.listdir(DESC_DIR):

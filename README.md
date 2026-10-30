@@ -14,6 +14,10 @@ Prices on the site = CSV price + `PRICE_MARKUP` (Rs. 300, set in `tools/build_pr
 2. Run `python3 tools/build_products.py`.
 3. Commit and push. The site updates automatically.
 
+## Add products by hand
+Put product photos in `images/products/` and add one row per product to `data/extra_products.csv`:
+`Title, Price, Category, Description, Images` (several images separated by `|`, e.g. `images/products/cup-1.jpg|images/products/cup-2.jpg`). Then run `python3 tools/build_products.py`. The Rs. 300 markup is added here too.
+
 ## Go live on GitHub Pages
 Open **Settings → Pages**, set **Source** to *Deploy from a branch*, pick the branch and the `/ (root)` folder, then click **Save**. The site will be at `https://asadprofficial-code.github.io/mystore/`.
 
