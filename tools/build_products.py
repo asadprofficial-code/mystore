@@ -16,6 +16,9 @@ OUT_DIR = os.path.join(ROOT, "data")
 DESC_DIR = os.path.join(OUT_DIR, "desc")
 CHUNK = 100
 
+# Profit added to every supplier price from the CSV (in Rs.)
+PRICE_MARKUP = 300
+
 ALLOWED = {"p", "br", "ul", "ol", "li", "strong", "b", "em", "i", "h3", "h4"}
 
 
@@ -67,7 +70,7 @@ def main():
                 "id": len(products),
                 "handle": handle,
                 "title": title,
-                "price": round(float(row["Price"] or 0)),
+                "price": round(float(row["Price"] or 0)) + PRICE_MARKUP,
                 "cat": category,
                 "catSlug": slugify(category),
                 "images": [],

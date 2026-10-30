@@ -8,6 +8,8 @@ A fast, mobile-friendly online store with **728 products** in 10 categories. It 
 Edit `config.js` to set the store name, WhatsApp number (orders go here), delivery charge and free-delivery limit.
 
 ## Update products
+Prices on the site = CSV price + `PRICE_MARKUP` (Rs. 300, set in `tools/build_products.py`).
+
 1. Replace `data/All_Products_CSV_for_Shopify.csv` with a new export (same columns).
 2. Run `python3 tools/build_products.py`.
 3. Commit and push. The site updates automatically.
