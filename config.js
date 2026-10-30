@@ -4,7 +4,7 @@ window.STORE_CONFIG = {
   tagline: "Smart gadgets, beauty & home essentials, delivered across Pakistan",
 
   // WhatsApp number that receives orders: country code + number, no "+" or spaces
-  whatsapp: "923000000000",
+  whatsapp: "923243634761",
   email: "",
   phone: "",
 
