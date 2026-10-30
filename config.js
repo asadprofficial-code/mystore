@@ -9,8 +9,8 @@ window.STORE_CONFIG = {
   phone: "",
 
   currency: "Rs.",
-  deliveryCharge: 250,       // flat delivery charge per order
-  freeDeliveryAbove: 5000,   // set 0 to disable free delivery
+  deliveryCharge: 0,         // flat delivery charge per order (0 = free delivery)
+  freeDeliveryAbove: 0,      // free delivery above this subtotal (0 = off)
 
   productsPerPage: 24,
 };

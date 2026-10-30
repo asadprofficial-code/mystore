@@ -75,7 +75,8 @@
 
   function renderChrome() {
     document.getElementById("logo").textContent = CFG.name;
-    var freeTxt = CFG.freeDeliveryAbove > 0 ? "Free delivery on orders above " + money(CFG.freeDeliveryAbove) + " · " : "";
+    var freeTxt = !CFG.deliveryCharge ? "Free Delivery · "
+      : CFG.freeDeliveryAbove > 0 ? "Free delivery on orders above " + money(CFG.freeDeliveryAbove) + " · " : "";
     document.getElementById("topbar").textContent = freeTxt + "Cash on Delivery all over Pakistan";
     document.getElementById("waFloat").href = waLink("Hi " + CFG.name + ", I have a question.");
 
